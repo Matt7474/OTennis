@@ -1,0 +1,21 @@
+.navbar-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-link{
+    text-decoration: none;
+    font-size: 1rem;
+    color: blueviolet;
+    
+}
+
+.left{
+    margin-right: 1rem;
+}
+
+.right{
+    margin-left: 1rem;
+}
+

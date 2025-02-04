@@ -1,0 +1,14 @@
+.logo-container{
+    display: flex;
+    flex-direction: row;
+
+    .logo-header{
+        width: 100px;
+        align-self: center;
+
+    }
+    h1{
+        font-size: 2rem;
+        font-weight: bold;
+    }
+}

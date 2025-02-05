@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard'
 import PrivateRoute from './components/PrivateRoute'
 import Terrain from './pages/Terrain'
 import Details from './pages/details'
+import AddMember from './pages/AddMember'
 
 function App() {
  
@@ -28,6 +29,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/terrain" element={<Terrain />} />
               <Route path="/details/:id" element={<Details />} />
+              <Route path="/addMember" element={<AddMember />} />
           </Route>
           
         </Routes>

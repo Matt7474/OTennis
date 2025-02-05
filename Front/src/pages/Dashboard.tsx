@@ -83,6 +83,7 @@ export default function Dashboard() {
                     <p>Vous avez des privilèges de Super Administrateur.</p>
                     <p>Ne peut être vu que par les Super Admins</p>
                     <button type="button" onClick={getMembers}>Voir tous les membres</button>
+                    <button type="button"> <Link to={"/addMember"}>Ajouter un nouveau membre</Link></button>
                     {members.map(member => {
                         return(
                             <div key={member.id}>
@@ -96,10 +97,22 @@ export default function Dashboard() {
                 </>
             )}
     
-            {(memberRole === 1 || memberRole === 2) && (
+            {(memberRole === 2) && (
                 <>
                     <p>Vous avez des privilèges d'Administrateur.</p>
                     <p>Ne peut être vu que par les Admins</p>
+                    <button type="button" onClick={getMembers}>Voir tous les membres</button>
+                    <button type="button"> <Link to={"/addMember"}>Ajouter un nouveau membre</Link></button>
+                    {members.map(member => {
+                        return(
+                            <div key={member.id}>
+                                <Link to={`/details/${member.id}`} >
+                                    <h2>{member.first_name} {member.last_name}</h2>
+                                    <p>membre depuis le {dayjs(member.created_at).format('DD/MM/YYYY')}</p>
+                                </Link>
+                            </div>
+                        )
+                    })}
                 </>
             )}
     

@@ -1,5 +1,6 @@
+import { ArrowLeft } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Age } from '../utils/Age';
 import dayjs from 'dayjs';
 import './details.css'
@@ -47,6 +48,9 @@ export default function Details() {
 
     return (
         <>
+            <div className='router-nav-container'>
+                <ArrowLeft size={18} color='rgb(138, 43, 226)'/><Link to="/dashboard" className='router-nav'>retour</Link>
+            </div>
             <h1>Page de détails de membre</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {member ? (

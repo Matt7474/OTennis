@@ -9,6 +9,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import PrivateRoute from './components/PrivateRoute'
 import Terrain from './pages/Terrain'
+import Details from './pages/details'
 
 function App() {
  
@@ -26,6 +27,7 @@ function App() {
           <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/terrain" element={<Terrain />} />
+              <Route path="/details/:id" element={<Details />} />
           </Route>
           
         </Routes>

@@ -3,7 +3,7 @@ import './Home.css'
 export default function Home() {
     return(
         <>
-            <h1>Bienvenu sur la page d'accueil</h1>
+            <h1>Bienvenue sur la page d'accueil</h1>
         </>
     )
 }

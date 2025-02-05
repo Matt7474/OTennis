@@ -27,8 +27,9 @@ export default function Login() {
             const data = await response.json()
             console.log("connexion reussi ! !", data);
             localStorage.setItem("token", data.token);
+            localStorage.setItem("memberId", data.id);
             window.dispatchEvent(new Event("login"));
-            navigate("/dashboard")
+            navigate("/dashboard");
         
         }catch (error: unknown) {
             if (error instanceof Error) {

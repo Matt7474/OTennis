@@ -43,6 +43,7 @@ export default function Navbar() {
                     {isAuthenticated ? (
                         <>
                             <Link className='nav-link right' to={'/terrain'}>Terrains</Link>
+                            <Link className='nav-link right' to={'/dashboard'}>Mon compte</Link>
                             {/* biome-ignore lint/a11y/useValidAnchor: <explanation> */}
                             <a href='#' className='nav-link right' onClick={handleLogout}>Se déconnecter</a>
                         </>

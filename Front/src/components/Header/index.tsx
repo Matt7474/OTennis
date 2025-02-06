@@ -21,7 +21,7 @@ export default function Header() {
                 <img className="logo-header" alt='logo' src="/favicon.svg" />
                 <h1>O'Tennis</h1>
             </div>
-            <div>
+            <div className="member-name">
                 {memberFirstName ? <p>Bienvenue {memberFirstName}</p> : <p>Bienvenue !</p>}
             </div>
         </div>

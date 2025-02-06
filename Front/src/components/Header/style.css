@@ -18,6 +18,11 @@
             align-self: center;
         }
     }
+
+    .member-name{
+        font-size: 1.5rem;
+        margin-right: 1.5rem;
+    }
 }
 
   

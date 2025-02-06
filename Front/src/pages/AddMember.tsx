@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './AddMember.css'
 import { Check, X } from 'lucide-react';
 import './AddMember.css'
+import { Navigate } from 'react-router-dom';
 
 export default function AddMember() {
 
@@ -11,7 +12,7 @@ export default function AddMember() {
     const [dateBirth, setDateBirth] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [photo, setPhoto] = useState<File | null>(null);
+    const [photo, setPhoto] = useState<string>("");
 
     const [streetNumber, setStreetNumber] = useState<number | "">("");
     const [addressExtra, setAddressExtra] = useState<string>("");
@@ -22,6 +23,7 @@ export default function AddMember() {
     const [password, setPassword] = useState<string>("Par dessus les nuages");
 
     const [preview, setPreview] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,10 +38,33 @@ export default function AddMember() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         console.log("formulaire soumis");
+
+        try{
+            const baseUrl:string = import.meta.env.VITE_BACKEND_BASE_URL;
+            const response = await fetch(`${baseUrl}/members`, {
+                method: "POST",
+                headers: {
+                    "content-Type": "application/json"
+                },
+                body: JSON.stringify({lastName, firstName, gender, dateBirth, phoneNumber, email, photo, streetNumber, addressExtra, streetName, zipCode, city, country, password})
+            });
+            
+            const data = await response.json()
+            console.log("Ajout du membre reussi !", data);
+            Navigate("/dashboard");
         
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Erreur de connexion :", error);
+                setError(error.message);
+            } else {
+                console.error("Erreur inconnue :", error);
+                setError("Une erreur inconnue est survenue");
+            }
+        }
     }
 
     return(
@@ -61,6 +86,7 @@ export default function AddMember() {
                                     id='last_name' 
                                     value={lastName} 
                                     onChange={(e) => setLastName(e.target.value)} 
+                                    required
                                     className={lastName.length >= 2 ? "valid" : "invalid"} 
                                 />
                                 {lastName.length >= 2 ? <Check color="green" /> : <X color="red" />}
@@ -76,6 +102,7 @@ export default function AddMember() {
                                     id='first_name' 
                                     value={firstName} 
                                     onChange={(e) => setFirstName(e.target.value)} 
+                                    required
                                     className={firstName.length >= 2 ? "valid" : "invalid"} 
                                 />
                                 {firstName.length >= 2 ? <Check color="green" /> : <X color="red" />}
@@ -86,7 +113,12 @@ export default function AddMember() {
                         <div className='input-container'>
                             <label htmlFor='gender'>Sexe :</label>
                             <div className='select'>
-                                <select name="gender" id="gender" value={gender} onChange={(e) => setGender(e.target.value)} className={gender.length >= 2 ? "valid" : "invalid"}>
+                                <select name="gender" 
+                                id="gender" 
+                                value={gender} 
+                                onChange={(e) => setGender(e.target.value)} 
+                                required 
+                                className={gender.length >= 2 ? "valid" : "invalid"}>
                                     <option value="">-- Choisissez une option --</option>
                                     <option value="Femme">Femme</option>
                                     <option value="Homme">Homme</option>
@@ -100,8 +132,13 @@ export default function AddMember() {
                         <div className='input-container'>
                             <label htmlFor='date_birth'>Date de naissance :</label>
                             <div className="check">
-                                <input type="date" name="date_birth" id="date_birth" value={dateBirth} onChange={(e) => setDateBirth(e.target.value)} 
-                                    className={dateBirth.length >= 10 ? "valid" : "invalid"} 
+                                <input type="date" 
+                                name="date_birth" 
+                                id="date_birth" 
+                                value={dateBirth} 
+                                onChange={(e) => setDateBirth(e.target.value)} 
+                                required
+                                className={dateBirth.length >= 10 ? "valid" : "invalid"} 
                                 />
                                 {dateBirth.length >= 10 ? <Check color="green" /> : <X color="red" />}
                             </div>
@@ -116,6 +153,7 @@ export default function AddMember() {
                                     id='phone_number' 
                                     value={phoneNumber} 
                                     onChange={(e) => setPhoneNumber(e.target.value)} 
+                                    required
                                     className={phoneNumber.length === 10 ? "valid" : "invalid"} 
                                 />
                                 {phoneNumber.length === 10 ? <Check color="green" /> : <X color="red" />}
@@ -131,6 +169,7 @@ export default function AddMember() {
                                 id="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                                 className={isValidEmail(email) ? "valid" : "invalid"}
                             />
                             {isValidEmail(email) ? <Check color="green" /> : <X color="red" />}
@@ -155,7 +194,9 @@ export default function AddMember() {
                             {preview && (
                                 <div className="preview-container">
                                     <p>Aperçu :</p>
-                                    <img src={preview} alt="Aperçu de l'image" className="preview-image" />
+                                    <img src={preview} 
+                                    alt="Aperçu de l'image" 
+                                    className="preview-image" />
                                 </div>
                             )}
                         </div>
@@ -175,6 +216,7 @@ export default function AddMember() {
                                     id='street_number' 
                                     value={streetNumber} 
                                     onChange={(e) => setStreetNumber(e.target.value === "" ? "" : Number(e.target.value))} 
+                                    required
                                     className={streetNumber !== "" ? "valid" : "invalid"} 
                                 />
                                 {streetNumber !== "" ? <Check color="green" /> : <X color="red" />}
@@ -203,6 +245,7 @@ export default function AddMember() {
                                     id='street_name' 
                                     value={streetName} 
                                     onChange={(e) => setStreetName(e.target.value)} 
+                                    required
                                     className={streetName.length >= 2 ? "valid" : "invalid"} 
                                 />
                                 {streetName.length >= 2 ? <Check color="green" /> : <X color="red" />}
@@ -218,6 +261,7 @@ export default function AddMember() {
                                     id='zip_code' 
                                     value={zipCode} 
                                     onChange={(e) => setZipCode(e.target.value)} 
+                                    required
                                     className={zipCode.length === 5 ? "valid" : "invalid"} 
                                 />
                                 {zipCode.length === 5 ? <Check color="green" /> : <X color="red" />}
@@ -233,6 +277,7 @@ export default function AddMember() {
                                     id='city' 
                                     value={city} 
                                     onChange={(e) => setCity(e.target.value)} 
+                                    required
                                     className={city.length >= 3 ? "valid" : "invalid"} 
                                 />
                                 {city.length >= 3 ? <Check color="green" /> : <X color="red" />}
@@ -248,6 +293,7 @@ export default function AddMember() {
                                     id='country' 
                                     value={city} 
                                     onChange={(e) => setCountry(e.target.value)} 
+                                    required
                                     className={country.length >= 3 ? "valid" : "invalid"} 
                                 />
                                 {country.length >= 3 ? <Check color="green" /> : <X color="red" />}
@@ -263,6 +309,7 @@ export default function AddMember() {
                                     id='password' 
                                     value={password} 
                                     onChange={(e) => setPassword(e.target.value)} 
+                                    required
                                     className={password.length >= 6 ? "valid" : "invalid"} 
                                 />
                                 {password.length >= 6 ? <Check color="green" /> : <X color="red" />}

@@ -3,27 +3,32 @@ import './AddMember.css'
 import { Check, X } from 'lucide-react';
 import './AddMember.css'
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function AddMember() {
 
-    const [lastName, setLastName] = useState<string>("")
-    const [firstName, setFirstName] = useState<string>("");
+    const [last_name, setLastName] = useState<string>("")
+    const [first_name, setFirstName] = useState<string>("");
     const [gender, setGender] = useState<string>("");
-    const [dateBirth, setDateBirth] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [date_of_birth, setDateBirth] = useState<string>("");
+    const [phone_number, setPhoneNumber] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [photo, setPhoto] = useState<string>("");
 
-    const [streetNumber, setStreetNumber] = useState<number | "">("");
-    const [addressExtra, setAddressExtra] = useState<string>("");
-    const [streetName, setStreetName] = useState<string>("");
-    const [zipCode, setZipCode] = useState<string>("");
+    const [street_number, setStreetNumber] = useState<number | "">("");
+    const [address_extra, setAddressExtra] = useState<string>("");
+    const [street_name, setStreetName] = useState<string>("");
+    const [zip_code, setZipCode] = useState<string>("");
     const [city, setCity] = useState<string>("");
     const [country, setCountry] = useState<string>("");
     const [password, setPassword] = useState<string>("Par dessus les nuages");
-
+    
     const [preview, setPreview] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    
+    const navigate = useNavigate();  
 
     const isValidEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,12 +54,12 @@ export default function AddMember() {
                 headers: {
                     "content-Type": "application/json"
                 },
-                body: JSON.stringify({lastName, firstName, gender, dateBirth, phoneNumber, email, photo, streetNumber, addressExtra, streetName, zipCode, city, country, password})
+                body: JSON.stringify({last_name, first_name, gender, date_of_birth, phone_number, email, photo, street_number, address_extra, street_name, zip_code, city, country, password})
             });
             
             const data = await response.json()
             console.log("Ajout du membre reussi !", data);
-            Navigate("/dashboard");
+            navigate("/dashboard");
         
         }catch (error: unknown) {
             if (error instanceof Error) {
@@ -84,12 +89,12 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='last_name' 
-                                    value={lastName} 
+                                    value={last_name} 
                                     onChange={(e) => setLastName(e.target.value)} 
                                     required
-                                    className={lastName.length >= 2 ? "valid" : "invalid"} 
+                                    className={last_name.length >= 2 ? "valid" : "invalid"} 
                                 />
-                                {lastName.length >= 2 ? <Check color="green" /> : <X color="red" />}
+                                {last_name.length >= 2 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -100,12 +105,12 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='first_name' 
-                                    value={firstName} 
+                                    value={first_name} 
                                     onChange={(e) => setFirstName(e.target.value)} 
                                     required
-                                    className={firstName.length >= 2 ? "valid" : "invalid"} 
+                                    className={first_name.length >= 2 ? "valid" : "invalid"} 
                                 />
-                                {firstName.length >= 2 ? <Check color="green" /> : <X color="red" />}
+                                {first_name.length >= 2 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -135,12 +140,12 @@ export default function AddMember() {
                                 <input type="date" 
                                 name="date_birth" 
                                 id="date_birth" 
-                                value={dateBirth} 
+                                value={date_of_birth} 
                                 onChange={(e) => setDateBirth(e.target.value)} 
                                 required
-                                className={dateBirth.length >= 10 ? "valid" : "invalid"} 
+                                className={date_of_birth.length >= 10 ? "valid" : "invalid"} 
                                 />
-                                {dateBirth.length >= 10 ? <Check color="green" /> : <X color="red" />}
+                                {date_of_birth.length >= 10 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -151,12 +156,12 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='phone_number' 
-                                    value={phoneNumber} 
+                                    value={phone_number} 
                                     onChange={(e) => setPhoneNumber(e.target.value)} 
                                     required
-                                    className={phoneNumber.length === 10 ? "valid" : "invalid"} 
+                                    className={phone_number.length === 10 ? "valid" : "invalid"} 
                                 />
-                                {phoneNumber.length === 10 ? <Check color="green" /> : <X color="red" />}
+                                {phone_number.length === 10 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -214,12 +219,12 @@ export default function AddMember() {
                                 <input 
                                     type='number' 
                                     id='street_number' 
-                                    value={streetNumber} 
+                                    value={street_number} 
                                     onChange={(e) => setStreetNumber(e.target.value === "" ? "" : Number(e.target.value))} 
                                     required
-                                    className={streetNumber !== "" ? "valid" : "invalid"} 
+                                    className={street_number !== "" ? "valid" : "invalid"} 
                                 />
-                                {streetNumber !== "" ? <Check color="green" /> : <X color="red" />}
+                                {street_number !== "" ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -230,7 +235,7 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='address_extra' 
-                                    value={addressExtra} 
+                                    value={address_extra} 
                                     onChange={(e) => setAddressExtra(e.target.value)} 
                                 />
                             </div>
@@ -243,12 +248,12 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='street_name' 
-                                    value={streetName} 
+                                    value={street_name} 
                                     onChange={(e) => setStreetName(e.target.value)} 
                                     required
-                                    className={streetName.length >= 2 ? "valid" : "invalid"} 
+                                    className={street_name.length >= 2 ? "valid" : "invalid"} 
                                 />
-                                {streetName.length >= 2 ? <Check color="green" /> : <X color="red" />}
+                                {street_name.length >= 2 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 
@@ -259,12 +264,12 @@ export default function AddMember() {
                                 <input 
                                     type='text' 
                                     id='zip_code' 
-                                    value={zipCode} 
+                                    value={zip_code} 
                                     onChange={(e) => setZipCode(e.target.value)} 
                                     required
-                                    className={zipCode.length === 5 ? "valid" : "invalid"} 
+                                    className={zip_code.length === 5 ? "valid" : "invalid"} 
                                 />
-                                {zipCode.length === 5 ? <Check color="green" /> : <X color="red" />}
+                                {zip_code.length === 5 ? <Check color="green" /> : <X color="red" />}
                             </div>
                         </div>
 

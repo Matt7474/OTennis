@@ -42,7 +42,7 @@ export default function Details() {
         }
     }, [id]); 
 
-    const addOneYear = (date) => {
+    const addOneYear = (date: string | number | Date | dayjs.Dayjs | null | undefined) => {
         return dayjs(date).add(1, 'year');
     };
 

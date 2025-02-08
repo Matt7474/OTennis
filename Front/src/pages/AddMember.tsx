@@ -2,7 +2,6 @@ import { useState } from 'react'
 import './AddMember.css'
 import { Check, X } from 'lucide-react';
 import './AddMember.css'
-import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -26,7 +25,7 @@ export default function AddMember() {
     const [password, setPassword] = useState<string>("Par dessus les nuages");
     
     const [preview, setPreview] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [, setError] = useState<string | null>(null);
     
     const navigate = useNavigate();  
 
@@ -38,12 +37,12 @@ export default function AddMember() {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setPhoto(file);
+            setPhoto(String);
             setPreview(URL.createObjectURL(file)); // Génère un aperçu de l'image
         }
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async(e: { preventDefault: () => void; }) => {
         e.preventDefault()
         console.log("formulaire soumis");
 

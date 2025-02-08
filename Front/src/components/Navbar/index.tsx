@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './style.css';
 
 export default function Navbar() {
-    const [memberFirstName, setMemberFirstName] = useState(localStorage.getItem("memberFirstName") || "");
+    const [, setMemberFirstName] = useState(localStorage.getItem("memberFirstName") || "");
     const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
     const navigate = useNavigate();
 

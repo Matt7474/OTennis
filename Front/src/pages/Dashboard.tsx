@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 export default function Dashboard() {
     
     const id = localStorage.getItem("memberId");
-    const [error, setError] = useState<string | null>(null);
+    const [, setError] = useState<string | null>(null);
     const [memberRole, setMemberRole] = useState<number | null>(null)
-    const [member, setMember] = useState<string>("")
+    const [, setMember] = useState<string>("")
     const [members, setMembers] = useState<any[]>([]);
 
     const getMember = async () => {

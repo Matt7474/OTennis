@@ -1,0 +1,88 @@
+name: Deploy on githubpages
+
+# Contrôle l'exécution du workflow
+on:
+  # Déclenchement lors d'un push mais uniquement sur la branche `S19E02-gh-pages`
+  push:
+    branches: 
+      - dev
+  
+  # Autorisation de déclencher manuellement du workflow depuis l'onglet « Actions » du dépôt GH
+  workflow_dispatch:
+
+# On défini des permissions pour autoriser le déploiement sur GitHub Pages
+# copié collé de la doc, obligatoire pour que ça marche
+permissions:
+  # Permission de lire le contenu du dépôt
+  # (nécessaire pour le processus de checkout du code, comme dans l'étape actions/checkout@v4)
+  contents: read
+  # Permission d'écrire sur GH Pages.
+  # (essentiel pour que le processus de déploiement fonctionne correctement)
+  pages: write
+  # Permet de créer un token
+  # (peut être nécessaire pour interagir avec d'autres services ou APIs externes pour prouver l'identité du workflow ; ex. : Google Cloud, authentification OAuth…)
+  id-token: write
+
+# on authorise un seul groupe de jobs à la fois
+concurrency:
+  # Le nom du groupe de jobs
+  group: "pages"
+  # on ne veut pas que les jobs soient annulés si un autre est en cours
+  cancel-in-progress: false
+
+jobs: 
+
+  build:
+    runs-on: ubuntu-latest
+    # on pense à préciser le working-directory pour que les actions se fassent dans dossier frontend
+   
+    steps: 
+
+      # on récupère le code
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+    
+      # on installe Node.js
+      - name: ⚙️ Setup de l'environnement Node.js
+        uses: actions/setup-node@v4
+        working-directory: Front
+
+      # on installe les dépendances
+      - name: 📦 Installation des dépendances
+        run: npm install
+
+      # Check lint et format
+      # Tests
+
+      # on build notre code
+      - name: 🏗️ Build du projet
+        run: npm run build
+        working-directory: Front
+
+      # Création d'un artifact contenant notre bundle (pour l'utiliser dans le job deploy)
+      - name: 📤 Création du GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Front/dist/
+
+  deploy:
+    # on fait pas le deploy tant qu'on a pas fait le build
+    needs: build
+    runs-on: ubuntu-latest
+
+    # on créé un environnement appelé "github-pages", on pourra ainsi directement sur github, dans les settings, lui configurer des secrets, des regles de protection, etc.
+    environment:
+      name: github-pages
+
+    steps:
+      - name: 🚀 Déploiement sur GitHub Pages
+        # avec id on donne le nom 'deployment' à notre step, il sera utilisé pour récupérer notre url dans les outputs
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+        # Affichage de l'URL du site
+      - name: 🔗 URL du site déployé
+        # l'url de la page github sera disponible dans les outputs de la step ayant l'id deployment
+        # elle sera normalement de type : https://<username>.github.io/<repo>/
+        # attention faudra ajouter la base URL dans la config de Vite sinon le nom du repo ne sera prit en compte
+        run: echo "🔗 Votre site est disponible à ${{ steps.deployment.outputs.page_url }}"

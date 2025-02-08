@@ -45,12 +45,13 @@ jobs:
       # on installe Node.js
       - name: ⚙️ Setup de l'environnement Node.js
         uses: actions/setup-node@v4
-        working-directory: Front
+        
 
       # on installe les dépendances
       - name: 📦 Installation des dépendances
         run: npm install
-
+        working-directory: Front
+        
       # Check lint et format
       # Tests
 

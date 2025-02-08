@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Terrain from './pages/Terrain'
 import Details from './pages/details'
 import AddMember from './pages/AddMember'
+import EditMember from './pages/EditMember'
 
 function App() {
  
@@ -30,6 +31,7 @@ function App() {
               <Route path="/terrain" element={<Terrain />} />
               <Route path="/details/:id" element={<Details />} />
               <Route path="/addMember" element={<AddMember />} />
+              <Route path='/editMember/:id' element={<EditMember />} />
           </Route>
           
         </Routes>

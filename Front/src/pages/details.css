@@ -67,6 +67,14 @@ h1{
     .details-right{
         width: 100%;
 
+        .pencil{
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: -1.6rem;
+            text-decoration: none;
+            color: white
+        }
+
         img{
             width: 60%;
             margin-left: 5rem;

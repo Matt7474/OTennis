@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Pencil } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Age } from '../utils/Age';
@@ -9,6 +9,7 @@ export default function Details() {
     const { id } = useParams();
     const [error, setError] = useState<string | null>(null);
     const [member, setMember] = useState<any>(null);
+    const [editMember, setEditedMember] = useState<string | null>("")
 
     const getMemberById = async (id: string) => {
         try {
@@ -20,6 +21,7 @@ export default function Details() {
             if (response.ok) {
                 const member = await response.json();
                 setMember(member);
+                setEditedMember(member);
                 console.log("Le détail du membre :", member);
             } else {
                 throw new Error("Erreur de récupération des données");
@@ -56,6 +58,7 @@ export default function Details() {
             {member ? (
                 <div className='details-container'>
                     <div className='details-left'>
+                        
                         <div className='logo-container'>
                             <img className='logo' src="/logo-details.svg" alt="logo" /> 
                             <h1>O'Tennis</h1>
@@ -69,6 +72,9 @@ export default function Details() {
                         <p>Email : {member.email}</p>
                     </div>
                     <div className='details-right'>
+                        <Link to={`/editMember/${id}`} className='pencil'>
+                            <Pencil />Modifier
+                        </Link>
                         <img 
                             srcSet='/default_user-320w.webp 320w, 
                                     /default_user-480w.webp 480w, 
